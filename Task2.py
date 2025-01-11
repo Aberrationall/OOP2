@@ -1,21 +1,26 @@
-cook_book = {
-    'Омлет': [
-        {'ingredient_name': 'Яйцо', 'quantity': 2, 'measure': 'шт.'},
-        {'ingredient_name': 'Молоко', 'quantity': 100, 'measure': 'мл'},
-        {'ingredient_name': 'Помидор', 'quantity': 2, 'measure': 'шт'}
-    ],
-    'Утка по-пекински': [
-        {'ingredient_name': 'Утка', 'quantity': 1, 'measure': 'шт'},
-        {'ingredient_name': 'Вода', 'quantity': 2, 'measure': 'л'},
-        {'ingredient_name': 'Мед', 'quantity': 3, 'measure': 'ст.л'},
-        {'ingredient_name': 'Соевый соус', 'quantity': 60, 'measure': 'мл'}
-    ],
-    'Запеченный картофель': [
-        {'ingredient_name': 'Картофель', 'quantity': 1, 'measure': 'кг'},
-        {'ingredient_name': 'Чеснок', 'quantity': 3, 'measure': 'зубч'},
-        {'ingredient_name': 'Сыр гауда', 'quantity': 100, 'measure': 'г'},
-    ]
-}
+def read_cookbook(f_path = "recepts.txt"):
+    cook_book = {}
+    with open(f_path, "r", encoding="utf-8") as f:
+        while True:
+            recipe_name = f.readline().strip()
+            if not recipe_name:
+                break
+            i_count = int(f.readline().strip())
+            ingredients = []
+            for x in range(i_count):
+                ingredient_line = f.readline().strip().split(" | ")
+                ingredients.append({
+                    "ingredient_name": ingredient_line[0],
+                    "quantity": int(ingredient_line[1]),
+                    "measure": ingredient_line[2]
+                })
+            cook_book[recipe_name] = ingredients
+            f.readline()
+    return cook_book
+
+f_path = "recepts.txt"
+cook_book = read_cookbook(f_path)
+print(cook_book)
 
 def get_shop_list_by_dishes(dishes, person_count):
     ingredient_list = {}
